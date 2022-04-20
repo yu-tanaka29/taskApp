@@ -66,10 +66,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         chooseCategory.endEditing(true)
         if categoryArray.count != 0 {
             chooseCategory.text = "\(categoryArray[pickerView.selectedRow(inComponent: 0)].name)"
+            
+            let id = categoryArray[pickerView.selectedRow(inComponent: 0)].id
+            taskArray = try! Realm().objects(Task.self).filter("id = \(id)").sorted(byKeyPath: "date", ascending: true)
+            tableView.reloadData()
         }
-        let id = categoryArray[pickerView.selectedRow(inComponent: 0)].id
-        taskArray = try! Realm().objects(Task.self).filter("id = \(id)").sorted(byKeyPath: "date", ascending: true)
-        tableView.reloadData()
     }
     // 全件表示
     @IBAction func allDisplay(_ sender: Any) {
